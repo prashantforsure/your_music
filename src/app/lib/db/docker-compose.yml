@@ -1,0 +1,15 @@
+version: '3'
+services:
+  db:
+    image: postgres
+    restart: always
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    ports:
+      - 5434:5434  # make sure you don't have another container running on 5432
+
+    environment:
+      - POSTGRES_DB=musicDB
+      - POSTGRES_USER=prashant
+      - POSTGRES_PASSWORD=password1
+
