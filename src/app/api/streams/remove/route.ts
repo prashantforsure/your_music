@@ -44,6 +44,10 @@ export async function DELETE(req: NextRequest) {
             message: " song removed succeessfully"
         })
     }catch(e){
-        
+        return NextResponse.json({
+            message: "Error while removing the song"
+        }, {
+            status: 400
+        });
     }
-}
+    }
