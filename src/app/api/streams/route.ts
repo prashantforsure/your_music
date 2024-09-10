@@ -5,6 +5,7 @@ import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
+
 const checkStreamSchema = z.object({
 creatorId: z.string(),
 url: z.string()
@@ -185,4 +186,16 @@ export async function GET(req: NextRequest){
         })
     ])
     const isCreator = user.id === creatorId;
+    
+    return NextResponse.json({
+        streams: streams.map(({_count, ...rest}) => ({
+            ...rest,
+            upvotes: _count.upvotes,
+            haveUpvoted: rest.upvotes.length ? true : false
+        })),
+        //@ts-ignore
+        activeStream,
+        creatorId,
+        isCreator
+    });
 }
