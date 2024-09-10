@@ -184,5 +184,5 @@ export async function GET(req: NextRequest){
             }
         })
     ])
-    
+    const isCreator = user.id === creatorId;
 }
