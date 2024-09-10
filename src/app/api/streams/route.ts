@@ -125,8 +125,64 @@ return NextResponse.json({
    }catch(error){
     console.log(error);
     return NextResponse.json({
-        
+        message: "something went wrong with the request"
     })
    }
 
+}
+
+
+export async function GET(req: NextRequest){
+    const creatorId = req.nextUrl.searchParams.get("creatorId");
+    const session = await getServerSession();
+    const user  = await prisma.user.findFirst({
+        where: {
+            email: session?.user?.email || ""
+        }
+    })
+    if(!user){
+        return NextResponse.json({
+            message: "user is not logged in"
+        },{
+            status: 403
+        }
+    )
+    }
+    if(!creatorId){
+        return NextResponse.json({
+            message: "error, no creatorID"
+        },
+    {
+        status: 411
+    })
+    }
+    const [streams, activeSteam] = await Promise.all([
+        prisma.stream.findMany({
+            where: {
+                userId: creatorId,
+                played: false
+            },
+            include: {
+                _count: {
+                    select: {
+                        upvotes: true
+                    }
+                },
+                upvotes: {
+                    where: {
+                        userId: user.id
+                    }
+                }
+            }
+        }),
+        prisma.currentStream.findFirst({
+            where: {
+                userId: creatorId
+            },
+            include: {
+                stream: true
+            }
+        })
+    ])
+    
 }
