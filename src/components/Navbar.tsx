@@ -1,10 +1,12 @@
-import { authOptions } from '@/lib/auth'
+
 import { BookOpenText } from 'lucide-react'
 import { getServerSession } from 'next-auth'
 import Link from 'next/link'
 import React from 'react'
 import { Button, buttonVariants } from './ui/button'
 import { UserAccountNav } from './UserAccountNav'
+import { authOptions } from '@/lib/auth'
+
 
 export default async function Navbar() {
   const session = await getServerSession(authOptions)

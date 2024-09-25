@@ -6,7 +6,8 @@ import { Users, Radio, Headphones } from "lucide-react";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
-import { authOptions } from "./lib/auth";
+import Navbar from "@/components/Navbar";
+import { authOptions } from "@/lib/auth";
 
 
 export default async function Component() {
